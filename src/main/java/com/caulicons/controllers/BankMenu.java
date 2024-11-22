@@ -6,6 +6,7 @@ import java.util.Optional;
 import java.util.UUID;
 
 import com.caulicons.enums.MenuOption;
+import com.caulicons.interfaces.MenuI;
 import com.caulicons.models.account.Account;
 import com.caulicons.models.account.CurrentAccount;
 import com.caulicons.models.account.SaveAccount;
@@ -15,7 +16,7 @@ import com.caulicons.types.TypeAccount;
 import com.caulicons.utils.InputHandler;
 import com.caulicons.utils.Utils;
 
-public class BankMenu {
+public class BankMenu implements MenuI<MenuOption, Account> {
 
   private final BankService bankService;
   private final InputHandler input;
@@ -40,13 +41,13 @@ public class BankMenu {
     }
   }
 
-  private void handleOption(MenuOption option) {
+  public void handleOption(MenuOption option) {
     switch (option) {
-      case CREATE_ACCOUNT -> createAccount();
-      case LIST_ACCOUNTS -> listAllAccounts();
+      case CREATE_ACCOUNT -> register();
+      case LIST_ACCOUNTS -> listAll();
       case FIND_ACCOUNT -> findAccountById();
-      case UPDATE_ACCOUNT -> updateAccount();
-      case DELETE_ACCOUNT -> deleteAccount();
+      case UPDATE_ACCOUNT -> update();
+      case DELETE_ACCOUNT -> delete();
       case WITHDRAW -> withdraw();
       case DEPOSIT -> deposit();
       case TRANSFER -> transfer();
@@ -54,7 +55,7 @@ public class BankMenu {
     }
   }
 
-  private static void printMenu() {
+  public void printMenu() {
     System.out.println("""
         ********************************************
                Welcome to The Bank of Banks! 🏦
@@ -67,7 +68,7 @@ public class BankMenu {
 
   }
 
-  private int getOption() {
+  public int getOption() {
     try {
       return input.readInt("Option: ");
     } catch (InputMismatchException e) {
@@ -75,7 +76,7 @@ public class BankMenu {
     }
   }
 
-  private Optional<Account> getAccount() {
+  public Optional<Account> getOne() {
 
     UUID uuid = input.readUUID("Enter the account's UUID: ");
     Optional<Account> acc = bankService.findById(uuid);
@@ -85,7 +86,7 @@ public class BankMenu {
     return acc;
   }
 
-  private void createAccount() {
+  public void register() {
     int agency = input.readInt("Enter the account's agency: ");
     int type = input.readInt("Enter the account's type (1 - Current | 2 - Save): ");
 
@@ -99,17 +100,17 @@ public class BankMenu {
     }
   }
 
-  private void listAllAccounts() {
+  public void listAll() {
     bankService.listAll();
   }
 
-  private void findAccountById() {
-    getAccount().ifPresent(Account::info);
+  public void findAccountById() {
+    getOne().ifPresent(Account::info);
   }
 
-  private void updateAccount() {
+  public void update() {
 
-    getAccount().ifPresent(accountUp -> {
+    getOne().ifPresent(accountUp -> {
       int agencyUp = input.readInt("Enter the new agency: ");
 
       Account newAccount;
@@ -126,22 +127,22 @@ public class BankMenu {
 
   }
 
-  private void deleteAccount() {
+  public void delete() {
 
-    getAccount().ifPresent(acc -> bankService.remove(acc.getId()));
+    getOne().ifPresent(acc -> bankService.remove(acc.getId()));
   }
 
-  private void withdraw() {
+  public void withdraw() {
 
-    getAccount().ifPresent(acc -> {
+    getOne().ifPresent(acc -> {
       float value = input.readFloat("Enter the value to withdraw: ");
       bankService.withdraw(acc.getId(), value);
     });
   }
 
-  private void deposit() {
+  public void deposit() {
 
-    getAccount().ifPresent(acc -> {
+    getOne().ifPresent(acc -> {
       float value = input.readFloat("Enter the value to deposit: ");
       bankService.deposit(acc.getId(), value);
     });
@@ -156,7 +157,8 @@ public class BankMenu {
     bankService.transfer(source, target, value);
   }
 
-  private void exit() {
+  public void exit() {
     System.out.format("Thank for trust you money with us %s%n 💌", client.getName());
   }
+
 }

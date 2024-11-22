@@ -4,12 +4,13 @@ import java.util.InputMismatchException;
 import java.util.Optional;
 
 import com.caulicons.enums.ClientMenuOptions;
+import com.caulicons.interfaces.MenuI;
 import com.caulicons.models.client.Client;
 import com.caulicons.services.ClientService;
 import com.caulicons.utils.InputHandler;
 import com.caulicons.utils.Utils;
 
-public class ClientMenu {
+public class ClientMenu implements MenuI<ClientMenuOptions, Client> {
 
   private final InputHandler input;
   private final ClientService clientService;
@@ -29,7 +30,7 @@ public class ClientMenu {
     }
   }
 
-  private void printMenu() {
+  public void printMenu() {
 
     System.out.println("""
         ********************************************
@@ -42,7 +43,7 @@ public class ClientMenu {
       System.out.format("%d - %s%n", option.ordinal() + 1, option.getDescription());
   }
 
-  private int getOption() {
+  public int getOption() {
 
     try {
       return input.readInt("Choose an option: ");
@@ -52,37 +53,32 @@ public class ClientMenu {
     }
   }
 
-  private void handleOption(ClientMenuOptions option) {
+  public void handleOption(ClientMenuOptions option) {
     switch (option) {
       case LOGIN -> login();
       case REGISTER -> register();
-      case LIST_ALL_CLIENTS -> allClients();
-      case UPDATE_CLIENT -> updateClient();
-      case DELETE_CLIENT -> deleteClient();
+      case LIST_ALL_CLIENTS -> listAll();
+      case UPDATE_CLIENT -> update();
+      case DELETE_CLIENT -> delete();
       case EXIT -> exit();
       default -> System.out.println("Invalid option, please try again.");
     }
   }
 
-  private void register() {
+  public void register() {
 
     String name = input.readString("Enter the client's name: ");
     String cpf = input.readString("Enter the client's CPF: ");
     clientService.register(new Client(cpf, name));
   }
 
-  private void login() {
-
-    getClient().ifPresent(bankMenu::start);
-  }
-
-  private void allClients() {
+  public void listAll() {
 
     clientService.listAll();
   }
 
-  private void updateClient() {
-    getClient().ifPresent(c -> {
+  public void update() {
+    getOne().ifPresent(c -> {
 
       String name = input.readString("Enter the new client's name: ");
       c.setName(name);
@@ -90,19 +86,19 @@ public class ClientMenu {
     });
   }
 
-  private void deleteClient() {
+  public void delete() {
 
-    getClient().ifPresent(c -> clientService.remove(c.getCpf()));
+    getOne().ifPresent(c -> clientService.remove(c.getCpf()));
   }
 
-  private void exit() {
+  public void exit() {
 
     input.close();
     System.out.println("Thank you for using The Bank of Banks!");
     System.exit(0);
   }
 
-  private Optional<Client> getClient() {
+  public Optional<Client> getOne() {
 
     String cpf = input.readString("Enter the client's CPF: ");
     Optional<Client> client = clientService.findById(cpf);
@@ -110,5 +106,10 @@ public class ClientMenu {
     client.ifPresentOrElse(c -> {
     }, () -> System.out.println("Client not found."));
     return client;
+  }
+
+  public void login() {
+
+    getOne().ifPresent(bankMenu::start);
   }
 }
