@@ -31,6 +31,10 @@ public class BankMenu {
     while (true) {
       printMenu();
       int option = getOption();
+      if (option == 9) {
+        exit();
+        break;
+      }
       handleOption(MenuOption.fromValue(option));
       keyPress();
     }
@@ -153,9 +157,7 @@ public class BankMenu {
   }
 
   private void exit() {
-    input.close();
-    System.out.println("Thank you for using The Bank of Banks!");
-    System.exit(0);
+    System.out.format("Thank for trust you money with us %s%n 💌", client.getName());
   }
 
   private static void keyPress() {

@@ -1,15 +1,14 @@
 package com.caulicons;
 
-import com.caulicons.controllers.BankMenu;
-import com.caulicons.models.client.Client;
+import com.caulicons.controllers.ClientMenu;
 
 public class TheBankOfBanks {
 
     public static void main(String[] args) {
 
-        BankMenu menu = new BankMenu();
-        Client client = new Client("4654654465546546", "Vítor Oliveira");
-        menu.start(client);
+        ClientMenu menu = new ClientMenu();
+
+        menu.start();
 
         Runtime.getRuntime().addShutdownHook(new Thread(() -> about()));
     }

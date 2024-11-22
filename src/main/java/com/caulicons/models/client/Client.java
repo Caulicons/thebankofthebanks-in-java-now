@@ -22,6 +22,15 @@ public class Client {
     this.name = name;
   }
 
+  public void info() {
+    System.out.println("""
+        {
+            cpf: %s,
+            name: %s
+        }""".formatted(cpf, name));
+
+  }
+
   @Override
   public String toString() {
     return """
