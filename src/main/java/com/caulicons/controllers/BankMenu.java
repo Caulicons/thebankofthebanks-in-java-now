@@ -5,6 +5,7 @@ import java.util.InputMismatchException;
 import java.util.Optional;
 import java.util.UUID;
 
+import com.caulicons.builders.AccountBuilder;
 import com.caulicons.enums.MenuOption;
 import com.caulicons.interfaces.MenuI;
 import com.caulicons.models.account.Account;
@@ -87,17 +88,21 @@ public class BankMenu implements MenuI<MenuOption, Account> {
   }
 
   public void register() {
+
     int agency = input.readInt("Enter the account's agency: ");
     int type = input.readInt("Enter the account's type (1 - Current | 2 - Save): ");
 
-    if (type == 1)
-      bankService.register(new CurrentAccount(agency, client));
-    else if (type == 2) {
+    AccountBuilder newAcc = new AccountBuilder()
+        .withAgency(agency)
+        .withClient(client)
+        .withType(type == 1 ? TypeAccount.CURRENT : TypeAccount.SAVE);
+
+    if (type == 2) {
       LocalDate birthday = input.readDate("Enter the account's birthday (yyyy-mm-dd): ");
-      bankService.register(new SaveAccount(agency, client, birthday));
-    } else {
-      System.out.println("Invalid account type. Please, try again.");
+      newAcc.withBirthday(birthday);
     }
+
+    bankService.register(newAcc.build());
   }
 
   public void listAll() {
@@ -113,16 +118,19 @@ public class BankMenu implements MenuI<MenuOption, Account> {
     getOne().ifPresent(accountUp -> {
       int agencyUp = input.readInt("Enter the new agency: ");
 
-      Account newAccount;
+      AccountBuilder updateAcc = new AccountBuilder()
+          .withId(accountUp.getId())
+          .withAgency(agencyUp)
+          .withClient(client)
+          .withType(accountUp.getType())
+          .withBalance(accountUp.getBalance());
+
       if (accountUp.getType() == TypeAccount.SAVE) {
         var birthdayUp = input.readDate("Enter the new birthday (yyyy-mm-dd): ");
-        newAccount = new SaveAccount(agencyUp, client, birthdayUp);
-      } else {
-        newAccount = new CurrentAccount(agencyUp, client);
+        updateAcc.withBirthday(birthdayUp);
       }
 
-      newAccount.setId(accountUp.getId());
-      bankService.update(newAccount);
+      bankService.update(updateAcc.build());
     });
 
   }

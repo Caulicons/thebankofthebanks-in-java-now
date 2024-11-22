@@ -3,6 +3,7 @@ package com.caulicons.controllers;
 import java.util.InputMismatchException;
 import java.util.Optional;
 
+import com.caulicons.builders.ClientBuilder;
 import com.caulicons.enums.ClientMenuOptions;
 import com.caulicons.interfaces.InputValidator;
 import com.caulicons.interfaces.MenuI;
@@ -71,7 +72,12 @@ public class ClientMenu implements MenuI<ClientMenuOptions, Client> {
     String name = input.readString("Enter the client's name: ");
     String cpf = input.readString("Enter the client's CPF: ");
 
-    clientService.register(new Client(cpf, name));
+    Client client = new ClientBuilder()
+        .withName(name)
+        .withCpf(cpf)
+        .build();
+
+    clientService.register(client);
   }
 
   public void listAll() {
@@ -83,8 +89,13 @@ public class ClientMenu implements MenuI<ClientMenuOptions, Client> {
     getOne().ifPresent(c -> {
 
       String name = input.readString("Enter the new client's name: ");
-      c.setName(name);
-      clientService.update(c);
+
+      Client updatedClient = new ClientBuilder()
+          .withName(name)
+          .withCpf(c.getCpf())
+          .build();
+
+      clientService.update(updatedClient);
     });
   }
 
