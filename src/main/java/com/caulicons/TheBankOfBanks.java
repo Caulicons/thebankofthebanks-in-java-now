@@ -1,15 +1,12 @@
 package com.caulicons;
 
-import com.caulicons.controllers.ClientMenu;
+import com.caulicons.utils.Utils;
 
 public class TheBankOfBanks {
 
     public static void main(String[] args) {
 
-        ClientMenu menu = new ClientMenu();
-
-        menu.start();
-
+        Utils.bootstrap();
         Runtime.getRuntime().addShutdownHook(new Thread(() -> about()));
     }
 
