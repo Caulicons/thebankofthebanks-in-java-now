@@ -1,12 +1,13 @@
 package com.caulicons.controllers;
 
-import java.io.IOException;
 import java.util.InputMismatchException;
 import java.util.Optional;
 
-import com.caulicons.Services.ClientService;
+import com.caulicons.enums.ClientMenuOptions;
 import com.caulicons.models.client.Client;
+import com.caulicons.services.ClientService;
 import com.caulicons.utils.InputHandler;
+import com.caulicons.utils.Utils;
 
 public class ClientMenu {
 
@@ -23,12 +24,11 @@ public class ClientMenu {
   public void start() {
     while (true) {
       printMenu();
-      handleOption(getOption());
-      keyPress();
+      handleOption(ClientMenuOptions.fromValue(getOption()));
+      Utils.keyPress();
     }
   }
 
-  /* TODO: Extract this option and create enums */
   private void printMenu() {
 
     System.out.println("""
@@ -36,13 +36,10 @@ public class ClientMenu {
                Welcome to The Bank of Banks! 🏦
         ********************************************
         Please, choose one of the following options:
-        1 - Login
-        2 - Register
-        3 - List all clients
-        4 - Update client
-        5 - Delete client
-        6 - Exit
         """);
+
+    for (ClientMenuOptions option : ClientMenuOptions.values())
+      System.out.format("%d - %s%n", option.ordinal() + 1, option.getDescription());
   }
 
   private int getOption() {
@@ -55,25 +52,14 @@ public class ClientMenu {
     }
   }
 
-  // TODO: Extract this method to a new util class
-  private void keyPress() {
-    try {
-      System.out.println("\n\nPress any key to continue...");
-      System.in.read();
-    } catch (IOException e) {
-      e.printStackTrace();
-    }
-  }
-
-  private void handleOption(int option) {
+  private void handleOption(ClientMenuOptions option) {
     switch (option) {
-      case 1 -> login();
-      case 2 -> register();
-      case 3 -> allClients();
-      case 4 -> updateClient();
-      case 5 -> deleteClient();
-      case 6 -> exit();
-
+      case LOGIN -> login();
+      case REGISTER -> register();
+      case LIST_ALL_CLIENTS -> allClients();
+      case UPDATE_CLIENT -> updateClient();
+      case DELETE_CLIENT -> deleteClient();
+      case EXIT -> exit();
       default -> System.out.println("Invalid option, please try again.");
     }
   }

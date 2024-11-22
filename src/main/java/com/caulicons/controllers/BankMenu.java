@@ -1,19 +1,19 @@
 package com.caulicons.controllers;
 
-import java.io.IOException;
 import java.time.LocalDate;
 import java.util.InputMismatchException;
 import java.util.Optional;
 import java.util.UUID;
 
-import com.caulicons.Services.BankService;
+import com.caulicons.enums.MenuOption;
 import com.caulicons.models.account.Account;
 import com.caulicons.models.account.CurrentAccount;
 import com.caulicons.models.account.SaveAccount;
 import com.caulicons.models.client.Client;
+import com.caulicons.services.BankService;
 import com.caulicons.types.TypeAccount;
 import com.caulicons.utils.InputHandler;
-import com.caulicons.utils.MenuOption;
+import com.caulicons.utils.Utils;
 
 public class BankMenu {
 
@@ -36,7 +36,7 @@ public class BankMenu {
         break;
       }
       handleOption(MenuOption.fromValue(option));
-      keyPress();
+      Utils.keyPress();
     }
   }
 
@@ -158,14 +158,5 @@ public class BankMenu {
 
   private void exit() {
     System.out.format("Thank for trust you money with us %s%n 💌", client.getName());
-  }
-
-  private static void keyPress() {
-    try {
-      System.out.println("\n\nPress any key to continue...");
-      System.in.read();
-    } catch (IOException e) {
-      e.printStackTrace();
-    }
   }
 }
