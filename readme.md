@@ -3,20 +3,22 @@
 - [x] - Create user repository
 - [x] redactor bank service
 
-- [] - Create custom errors
-- [] - Make the inputHandle recursive's
+- [x] - Create custom errors
+- [x] - Make the inputHandle recursive's ?
 
 ##
 
-- [] - Create a abstract class for the repository
-- [] - Create a abstract class for the menu
+- [x] - Create a interface class for the repository
+- [x] - Create a interface class for the menu
 
 ## Client classes
 
-- [] - In the client controllers - create user validation
-- []- Create enums to option
-- [] - Create client builder
+- [x] - In the client controllers - create user validation
+- [x] - Create enums to option
+- [x] - Create client builder
 
 ## Bank classes (accounts)
 
-- [] - create account builder
+- [x] - create account builder
+
+## Now, Test time.
