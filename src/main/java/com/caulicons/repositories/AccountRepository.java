@@ -2,9 +2,10 @@ package com.caulicons.repositories;
 
 import java.util.UUID;
 
+import com.caulicons.interfaces.RepositoryI;
 import com.caulicons.models.account.Account;
 
-public interface AccountRepository extends Repository<Account, UUID> {
+public interface AccountRepository extends RepositoryI<Account, UUID> {
 
   void deposit(UUID id, float value);
 

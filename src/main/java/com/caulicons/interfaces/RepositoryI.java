@@ -1,8 +1,8 @@
-package com.caulicons.repositories;
+package com.caulicons.interfaces;
 
 import java.util.Optional;
 
-public interface Repository<T, I> {
+public interface RepositoryI<T, I> {
 
   void register(T t);
 
