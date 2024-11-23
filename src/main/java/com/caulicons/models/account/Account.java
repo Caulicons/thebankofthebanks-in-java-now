@@ -100,7 +100,7 @@ public abstract class Account {
   }
 
   protected String getBRCurrency(float value) {
-    Locale brazil = new Locale("pt", "BR");
+    Locale brazil = Locale.of("pt", "BR");
     NumberFormat nf = NumberFormat.getCurrencyInstance(brazil);
     return nf.format(value);
   }
