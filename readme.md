@@ -19,10 +19,6 @@ The Bank of Banks is a console application that simulates basic banking operatio
 - JUnit 5
 - Mockito
 
-## Project Structure
-
-src/ ├── main/java/com/caulicons/ │ ├── controllers/ # Menu and user interaction handlers │ ├── models/ # Domain entities │ ├── services/ # Business logic │ ├── repositories/ # Data access interfaces │ ├── builders/ # Builder pattern implementations │ ├── utils/ # Utility classes │ └── interfaces/ # Common interfaces └── test/java/ # Test cases
-
 ## Key Features
 
 - Builder Pattern for object creation
