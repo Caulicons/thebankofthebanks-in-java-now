@@ -1,24 +1,93 @@
-- [x] - Create Menu user (controller)
-- [x] - Crate user Service
-- [x] - Create user repository
-- [x] redactor bank service
+# The Bank of Banks 🏦
 
-- [x] - Create custom errors
-- [x] - Make the inputHandle recursive's ?
+A Java-based banking system simulation that demonstrates object-oriented programming principles and clean architecture.
 
-##
+## Project Overview
 
-- [x] - Create a interface class for the repository
-- [x] - Create a interface class for the menu
+The Bank of Banks is a console application that simulates basic banking operations including:
 
-## Client classes
+- Client management (CRUD operations)
+- Account management (Current and Savings accounts)
+- Banking operations (deposits, withdrawals, transfers)
+- Interest calculations for savings accounts
+- Overdraft facility for current accounts
 
-- [x] - In the client controllers - create user validation
-- [x] - Create enums to option
-- [x] - Create client builder
+## Technologies Used
 
-## Bank classes (accounts)
+- Java 21
+- Maven
+- JUnit 5
+- Mockito
 
-- [x] - create account builder
+## Project Structure
 
-## Now, Test time.
+src/ ├── main/java/com/caulicons/ │ ├── controllers/ # Menu and user interaction handlers │ ├── models/ # Domain entities │ ├── services/ # Business logic │ ├── repositories/ # Data access interfaces │ ├── builders/ # Builder pattern implementations │ ├── utils/ # Utility classes │ └── interfaces/ # Common interfaces └── test/java/ # Test cases
+
+## Key Features
+
+- Builder Pattern for object creation
+- Repository Pattern for data access
+- Interface segregation
+- Clean Architecture principles
+- Input validation
+- Error handling
+- Unit testing
+
+## Getting Started
+
+### Prerequisites
+
+- Java 21 or higher
+- Maven
+
+### Installation
+
+1. Clone the repository
+
+```bash
+git clone https://github.com/yourusername/TheBankOfBanks.git
+```
+
+2. Build the project
+
+```bash
+mvn clean install
+```
+
+2. Run the application
+
+```bash
+mvn exec:java
+```
+
+## Running Tests
+
+```bash
+mvn test
+```
+
+## Project Highlights
+
+- ✨ **Robust Input Validation**
+
+  - CPF format verification
+  - Numeric input handling
+  - Date format validation
+  - Empty input prevention
+
+- 🎯 **Clean Code Principles**
+
+  - Single Responsibility Principle
+  - Interface Segregation
+  - Meaningful naming conventions
+
+- 🏗️ **Design Patterns**
+
+  - Builder pattern for object creation
+  - Repository pattern for data access
+  - Command pattern for menu operations
+
+- 🧪 **Comprehensive Testing**
+
+  - Unit tests with JUnit 5
+  - Mock objects with Mockito
