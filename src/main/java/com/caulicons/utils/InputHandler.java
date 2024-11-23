@@ -15,6 +15,10 @@ public class InputHandler implements AutoCloseable {
     this.scanner = new Scanner(System.in);
   }
 
+  public InputHandler(Scanner scanner) {
+    this.scanner = scanner;
+  }
+
   public int readInt(String prompt) {
     try {
       System.out.print(prompt);
