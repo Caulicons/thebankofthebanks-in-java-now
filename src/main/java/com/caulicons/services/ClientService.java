@@ -1,5 +1,6 @@
 package com.caulicons.services;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -8,13 +9,12 @@ import com.caulicons.repositories.ClientRepository;
 
 public class ClientService implements ClientRepository {
 
-  public final List<Client> clients;
+  final List<Client> clients = new ArrayList<>();
 
   public ClientService() {
-    this.clients = List.of(
-        new Client("123.456.789-00", "Vítor Oliveira"),
-        new Client("987.654.321-00", "João Silva"),
-        new Client("123.456.999-00", "Eduardo Oliveira"));
+    clients.add(new Client("123.456.789-00", "Vítor Oliveira"));
+    clients.add(new Client("987.654.321-00", "João Silva"));
+    clients.add(new Client("123.456.999-00", "Eduardo Oliveira"));
   }
 
   @Override
@@ -25,8 +25,12 @@ public class ClientService implements ClientRepository {
   @Override
   public void register(Client client) {
 
-    clients.add(client);
-    System.out.format("Client with the CPF %s created successfully", client.getCpf());
+    if (findById(client.getCpf()).isPresent()) {
+      System.out.println("Client already registered!");
+    } else {
+      clients.add(client);
+      System.out.format("Client with the CPF %s created successfully", client.getCpf());
+    }
   }
 
   @Override
