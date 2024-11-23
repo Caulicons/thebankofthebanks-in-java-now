@@ -10,6 +10,8 @@ import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
+import com.caulicons.interfaces.InputValidator;
+
 class InputHandlerTest {
 
   @Mock
@@ -24,6 +26,27 @@ class InputHandlerTest {
   }
 
   @Test
+  void shouldValidateInput() {
+
+    when(mockScanner.nextLine()).thenReturn("123.456.789-00");
+    String result = input.readWithValidation("Test prompt: ", new InputValidator<String>() {
+      @Override
+      public String get(String prompt) {
+        return "123.456.789-00";
+      }
+
+      @Override
+      public boolean isValid(String value) {
+        return value.matches("\\d{3}\\.\\d{3}\\.\\d{3}-\\d{2}");
+      }
+    });
+
+    assertEquals("123.456.789-00", result);
+
+    input.close();
+  }
+
+  @Test()
   void testReadCPF_ValidCPF() {
 
     when(mockScanner.nextLine()).thenReturn("123.456.789-00");
