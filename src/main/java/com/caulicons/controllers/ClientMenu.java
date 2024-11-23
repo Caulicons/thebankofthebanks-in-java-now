@@ -5,7 +5,6 @@ import java.util.Optional;
 
 import com.caulicons.builders.ClientBuilder;
 import com.caulicons.enums.ClientMenuOptions;
-import com.caulicons.interfaces.InputValidator;
 import com.caulicons.interfaces.MenuI;
 import com.caulicons.models.client.Client;
 import com.caulicons.services.ClientService;
@@ -113,7 +112,7 @@ public class ClientMenu implements MenuI<ClientMenuOptions, Client> {
 
   public Optional<Client> getOne() {
 
-    String cpf = getCPF();
+    String cpf = input.readCPF("Enter the client's CPF: ");
     Optional<Client> client = clientService.findById(cpf);
 
     client.ifPresentOrElse(c -> {
@@ -125,27 +124,4 @@ public class ClientMenu implements MenuI<ClientMenuOptions, Client> {
 
     getOne().ifPresent(bankMenu::start);
   }
-
-  private String getCPF() {
-    return input.readWithValidation(
-        "Enter the client's CPF: ",
-
-        new InputValidator<String>() {
-
-          public String get(String prompt) {
-            return input.readString(prompt);
-          }
-
-          @Override
-          public boolean isValid(String value) {
-            return value.matches("\\d{3}\\.\\d{3}\\.\\d{3}-\\d{2}");
-          }
-
-          @Override
-          public String getErrorMessage() {
-            return "Invalid CPF format. Use XXX.XXX.XXX-XX";
-          }
-        });
-  }
-
 }

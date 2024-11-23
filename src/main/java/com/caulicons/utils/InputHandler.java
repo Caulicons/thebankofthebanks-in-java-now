@@ -80,6 +80,28 @@ public class InputHandler implements AutoCloseable {
     }
   }
 
+  public String readCPF(String prompt) {
+
+    return readWithValidation(
+        prompt,
+        new InputValidator<String>() {
+
+          public String get(String prompt) {
+            return readString(prompt);
+          }
+
+          @Override
+          public boolean isValid(String value) {
+            return value.matches("\\d{3}\\.\\d{3}\\.\\d{3}-\\d{2}");
+          }
+
+          @Override
+          public String getErrorMessage() {
+            return "Invalid CPF format. Use XXX.XXX.XXX-XX";
+          }
+        });
+  }
+
   public <T> String readWithValidation(String prompt, InputValidator<T> validator) {
     while (true) {
       try {
