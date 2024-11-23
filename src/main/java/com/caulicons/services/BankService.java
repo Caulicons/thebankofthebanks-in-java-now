@@ -15,6 +15,7 @@ import com.caulicons.repositories.AccountRepository;
 public class BankService implements AccountRepository {
 
   private final List<Account> accounts;
+  private static final String ACCOUNT_404 = "Account not found";
 
   public BankService() {
     this.accounts = new ArrayList<>();
@@ -60,7 +61,7 @@ public class BankService implements AccountRepository {
   public void deposit(UUID id, float value) {
     findById(id).ifPresentOrElse(
         acc -> acc.deposit(value),
-        () -> System.out.println("Account not found"));
+        () -> System.out.println(ACCOUNT_404));
   }
 
   @Override
@@ -68,7 +69,7 @@ public class BankService implements AccountRepository {
 
     findById(id).ifPresentOrElse(
         acc -> acc.withdraw(value),
-        () -> System.out.println("Account not found"));
+        () -> System.out.println(ACCOUNT_404));
   }
 
   @Override
@@ -81,7 +82,7 @@ public class BankService implements AccountRepository {
       accountOrigin.get().withdraw(value);
       accountDestiny.get().deposit(value);
     } else {
-      System.out.println("Account not found");
+      System.out.println(ACCOUNT_404);
     }
   }
 
